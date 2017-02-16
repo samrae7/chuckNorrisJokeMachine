@@ -6,7 +6,7 @@ The project was bootstrapped with [Create React App](https://github.com/facebook
 
 ###To run the project
 
-run:
+From within the project folder run:
 
 `npm install`
 

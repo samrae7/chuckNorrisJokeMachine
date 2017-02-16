@@ -6,10 +6,6 @@ import './App.css';
 
 class JokeList extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     let jokes = this.props.jokes;
 
