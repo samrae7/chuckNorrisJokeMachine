@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import JokeList from './JokeList';
 import axios, {} from 'axios';
 
-import './App.css';
-
-class JokesList extends Component {
-
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {jokes: []};
@@ -13,7 +12,9 @@ class JokesList extends Component {
 
   getJoke() {
     return axios.get('https://api.icndb.com/jokes/random')
-      .then((response) => response.data.value)
+      .then((response) => {
+        return response.data.value;
+      })
       .catch((error) => console.log('error', error));
   }
 
@@ -27,6 +28,8 @@ class JokesList extends Component {
     this.getJoke()
       .then((joke) => {
         let jokeArray = this.state.jokes;
+        //replace '&quot' with "
+        joke.joke = joke.joke.replace(/(&quot;)/g,"\"");
         jokeArray = jokeArray.filter(isRepeat, joke);
         jokeArray.unshift(joke);
         this.setState({
@@ -36,32 +39,13 @@ class JokesList extends Component {
   }
 
   render() {
-    let jokes = this.state.jokes;
-
-    function createListItems(joke) {
-      return <li key={joke.id}>{joke.joke}</li>
-    }
-
-    var listItems = jokes.map(createListItems);
-
-    return (
-      <div>
-        <form onClick={this.addJoke}>
-          <button type="submit">Get another joke</button>
-        </form>
-        <ul>{listItems}</ul>
+    return(
+      <div className="appContainer">
+        <h1 className="appTitle">Chuck Norris Joke Generator</h1>
+        <RaisedButton onClick={this.addJoke} label="Hit me"/>
+        <JokeList jokes={this.state.jokes}/>
       </div>
-    );
-  }
-}
-
-class App extends Component {
-  render() {
-    return (
-      <div className="jokesListContainer">
-        <JokesList/>
-      </div>
-    );
+    )
   }
 }
 
